@@ -1,14 +1,16 @@
 # coding:utf-8
+# vi: set ft=python sts=4 ts=4 sw=4 et:
+
 import sys
 import os
 import random
 import pandas as pd
 
 
-'''
-构造属性关联训练集，分类问题，训练BERT分类模型
-1 
-'''
+"""
+构造属性关联训练集，分类问题，训练BERT分类模型 
+"""
+
 # [training, testing]
 data_type = "training"
 file = "nlpcc-iccpol-2016.kbqa."+data_type+"-data"

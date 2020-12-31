@@ -1,5 +1,7 @@
 #! usr/bin/env python3
 # -*- coding:utf-8 -*-
+# vi: set ft=python sts=4 ts=4 sw=4 et:
+
 """
 Copyright 2018 The Google AI Language Team Authors.
 BASED ON Google_BERT.

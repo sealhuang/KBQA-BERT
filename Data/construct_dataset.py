@@ -1,12 +1,15 @@
 # coding:utf-8
+# vi: set ft=python sts=4 ts=4 sw=4 et:
+
 import sys
 import os
 import pandas as pd
 
 
-'''
+"""
 构造NER训练集，实体序列标注，训练BERT+BiLSTM+CRF
-'''
+"""
+
 # [training, testing]
 data_type = "training"
 file = "./NLPCC2016KBQA/nlpcc-iccpol-2016.kbqa."+data_type+"-data"
@@ -20,7 +23,7 @@ q_t_a_list = []
 seq_q_list = []    #["中","华","人","民"]
 seq_tag_list = []  #[0,0,1,1]
 
-with open(file, 'r',encoding='utf-8') as f:
+with open(file, 'r', encoding='utf-8') as f:
     q_str = ""
     t_str = ""
     a_str = ""
