@@ -101,9 +101,16 @@ def check_entity_exists():
 def prepare4neo4j(file_name='ownthink_v2.csv'):
     """Encode each triple in text into neo4j-required format."""
     # entity dict
-    entity_count = 0
     entity_dict = {}
-    from_entity_list = []
+    entity_count = 0
+
+    # mention dict
+    mention_dict = {}
+    mention_count = 0
+
+    # property dict
+    property_dict = {}
+    property_count = 0
 
     # output entity file
     csvf_entity = open("entity.csv", "w", newline='', encoding='utf-8')
@@ -119,34 +126,59 @@ def prepare4neo4j(file_name='ownthink_v2.csv'):
     with open(file_name, 'r', encoding='utf-8') as csv_info:
         # pop out the header row
         csv_info.readline()
-        for line in csv_info:
-            tmp = line.strip().split(',')
-            tmp = [item.strip() for item in tmp]
-            tmp = [item for item in tmp if item]
-            if len(tmp)<3 or (tmp[1]==''):
+        csv_reader = csv.reader(x.replace('\0', '') for x in csv_info)
+        for line in csv_reader:
+            tmp = [item.strip().replace('\n', ' ') for item in line]
+            _tmp = [item for item in tmp if item]
+            if not len(_tmp)==3:
                 print(tmp)
                 continue
-            entity_n = tmp[0]
-            entity_b = ','.join(tmp[2:])
+            n1 = tmp[0]
             rel = tmp[1]
-            if not entity_n in entity_dict:
-                entity_count += 1
-                entity_dict[entity_n] = 'e'+str(entity_count)
-            if not entity_b in entity_dict:
-                entity_count += 1
-                entity_dict[entity_b] = 'e'+str(entity_count)
-            w_relation.writerow((entity_dict[entity_n], rel, entity_dict[entity_b], 'RELATION'))
+            n2 = tmp[2]
+            if rel=='歧义关系':
+                if not n2 in entity_dict:
+                    entity_count += 1
+                    entity_dict[n2] = 'e'+str(entity_count)
+                if not n1 in mention_dict:
+                    mention_count += 1
+                    mention_dict[n1] = 'm'+str(mention_count)
+                w_relation.writerow((
+                    mention_dict[n1],
+                    rel,
+                    entity_dict[n2],
+                    "MENTION",
+                ))
+            else:
+                if not n1 in entity_dict:
+                    entity_count += 1
+                    entity_dict[n1] = 'e'+str(entity_count)
+                if not n2 in property_dict:
+                    property_count += 1
+                    property_dict[n2] = 'p'+str(property_count)
+                w_relation.writerow((
+                    entity_dict[n1],
+                    rel,
+                    property_dict[n2],
+                    'RELATION',
+                ))
 
+    # save relations
     csvf_relation.close()
 
-    # save file
+    # save entities and mentions
     for e in entity_dict:
         w_entity.writerow((entity_dict[e], e, "ENTITY"))
+    for m in mention_dict:
+        w_entity.writerow((mention_dict[m], m, "MENTION"))
+    for p in property_dict:
+        w_entity.writerow((property_dict[p], p, "PROPERTY"))
     csvf_entity.close()
 
 
 if __name__ == '__main__':
     #collect_relations()
     #collect_mentions()
-    check_entity_exists()
+    #check_entity_exists()
+    prepare4neo4j()
 
