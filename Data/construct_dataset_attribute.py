@@ -13,14 +13,16 @@ import pandas as pd
 
 # [training, testing]
 data_type = "training"
-file = "nlpcc-iccpol-2016.kbqa."+data_type+"-data"
+#file = "./NLPCC2016KBQA/nlpcc-iccpol-2016.kbqa."+data_type+"-data"
 target = "./NER_Data/q_t_a_df_"+data_type+".csv"
 
 attribute_classify_sample = []
 
 # count the number of attribute
 testing_df = pd.read_csv(target, encoding='utf-8')
-testing_df['attribute'] = testing_df['t_str'].apply(lambda x: x.split('|||')[1].strip())
+testing_df['attribute'] = testing_df['t_str'].apply(
+    lambda x: x.split('|||')[1].strip()
+)
 attribute_list = testing_df['attribute'].tolist()
 print(len(set(attribute_list)))
 print(testing_df.head())
