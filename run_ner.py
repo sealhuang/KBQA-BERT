@@ -14,27 +14,26 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import collections
 import os
+import collections
 import json
+import pickle
+import codecs
 
 import tensorflow as tf
-import codecs
 from tensorflow.contrib.layers.python.layers import initializers
 from tensorflow.contrib import estimator
+
 from bert import modeling
 from bert import optimization
 from bert import tokenization
 from lstm_crf_layer import BLSTM_CRF
-
 import tf_metrics
-import pickle
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 flags = tf.flags
-
 FLAGS = flags.FLAGS
 
 # if os.name == 'nt':
@@ -207,7 +206,7 @@ class DataProcessor(object):
 class NerProcessor(DataProcessor):
     def get_train_examples(self, data_dir):
         return self._create_example(
-            self._read_data(os.path.join(data_dir, "train.txt")), "train"
+            self._read_data(os.path.join(data_dir, "training.txt")), "train"
         )
 
     def get_dev_examples(self, data_dir):
@@ -217,7 +216,7 @@ class NerProcessor(DataProcessor):
 
     def get_test_examples(self, data_dir):
         return self._create_example(
-            self._read_data(os.path.join(data_dir, "test.txt")), "test")
+            self._read_data(os.path.join(data_dir, "testing.txt")), "test")
 
     def get_labels(self):
         return ["O", "B-PER", "I-PER", "B-ORG", "I-ORG", "B-LOC", "I-LOC", "X", "[CLS]", "[SEP]"]

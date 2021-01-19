@@ -9,22 +9,21 @@
 import pandas as pd
 
 
-'''
+"""
 构造NER训练集，实体序列标注，训练BERT+BiLSTM+CRF
-'''
+"""
 
 question_str = "<question"
 triple_str = "<triple"
 answer_str = "<answer"
 start_str = "============="
 
-
 triple_list = []
 seq_q_list = []    #["中","华","人","民"]
 seq_tag_list = []  #[0,0,1,1]
 for data_type in ["training", "testing"]:
     file = "./NLPCC2016KBQA/nlpcc-iccpol-2016.kbqa." + data_type + "-data"
-    with open(file, 'r',encoding='utf-8') as f:
+    with open(file, 'r', encoding='utf-8') as f:
         q_str = ""
         t_str = ""
         a_str = ""
@@ -33,7 +32,8 @@ for data_type in ["training", "testing"]:
                 q_str = line.strip()
             if triple_str in line:
                 t_str = line.strip()
-            if start_str in line:  #new question answer triple
+            # new question answer triple
+            if start_str in line:
                 entities = t_str.split("|||")[0].split(">")[1].strip()
                 q_str = q_str.split(">")[1].replace(" ","").strip()
                 if ''.join(entities.split(' ')) in q_str:

@@ -37,10 +37,16 @@ for row in testing_df.index:
     # neg_att_list = attribute_list[0:5]
     neg_att_list = random.sample(attribute_list, 5)
     attribute_classify_sample.append([question, pos_att, '1'])
-    neg_att_sample = [[question, neg_att, '0'] for neg_att in neg_att_list if neg_att != pos_att]
+    neg_att_sample = [
+        [question, neg_att, '0'] for neg_att in neg_att_list
+            if neg_att != pos_att
+    ]
     attribute_classify_sample.extend(neg_att_sample)
 
-seq_result = [str(lineno) + '\t' + '\t'.join(line) for (lineno, line) in enumerate(attribute_classify_sample)]
+seq_result = [
+    str(lineno) + '\t' + '\t'.join(line)
+    for (lineno, line) in enumerate(attribute_classify_sample)
+]
 
 if data_type == 'testing':
     with open("./Sim_Data/"+data_type+".txt", "w", encoding='utf-8') as f:

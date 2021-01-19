@@ -1,17 +1,17 @@
 python run_ner.py \
   --task_name=ner \
   --data_dir=./Data/NER_Data \
-  --vocab_file=./ModelParams/chinese_L-12_H-768_A-12/vocab.txt \
-  --bert_config_file=./ModelParams/chinese_L-12_H-768_A-12/bert_config.json \
+  --vocab_file=./ModelParams/chinese_wwm_ext_L-12_H-768_A-12/vocab.txt \
+  --bert_config_file=./ModelParams/chinese_wwm_ext_L-12_H-768_A-12/bert_config.json \
   --output_dir=./Output/NER \
-  --init_checkpoint=./ModelParams/chinese_L-12_H-768_A-12/bert_model.ckpt \
+  --init_checkpoint=./ModelParams/chinese_wwm_ext_L-12_H-768_A-12/bert_model.ckpt \
   --data_config_path=./Config/NER/ner_data.conf \
   --do_train=True \
   --do_eval=True \
   --max_seq_length=128 \
   --lstm_size=128 \
   --num_layers=1 \
-  --train_batch_size=64 \
+  --train_batch_size=32 \
   --eval_batch_size=8 \
   --predict_batch_size=8 \
   --learning_rate=5e-5 \
